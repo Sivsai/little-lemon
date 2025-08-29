@@ -15,7 +15,6 @@ composeBom = "2025.08.01"
 navigationCompose = "2.9.3"
 room = "2.7.2"
 uiText = "1.9.0"
-glide = "1.0.0-alpha.1"
 foundation = "1.9.0"
 
 [libraries]

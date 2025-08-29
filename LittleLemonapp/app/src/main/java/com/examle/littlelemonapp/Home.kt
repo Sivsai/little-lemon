@@ -6,7 +6,17 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -14,8 +24,16 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,15 +45,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
-import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.text.style.TextOverflow
 import coil.compose.AsyncImage
+
 @Composable
 fun HomeScreen(navController: NavHostController,viewModel: MenuViewModel) {
     Column(
@@ -71,7 +87,6 @@ fun HomeScreen(navController: NavHostController,viewModel: MenuViewModel) {
 
         })
         MenuCategoryFilters( categories = categories, // The list of all unique categories
-            selectedCategory = selectedCategory, // The currently selected category state
             onCategorySelected = { newCategory -> // The function to run when a button is clicked
                 selectedCategory = newCategory})
         MenuItems(menuItems =filteredMenuItems)
@@ -108,8 +123,7 @@ fun HomeScreenPreview() {
 val PrimaryGreen = Color(0xFF495E57)
 val PrimaryYellow = Color(0xFFF4CE14)
 val SecondaryWhite = Color(0xFFEDEFEE)
-val SecondaryLightGray = Color(0xFFDCDCDC)
-val Karry = Color(0xFFEE9972)
+
 
 @Composable
 fun LittleLemonHeader(navController: NavHostController) {
@@ -241,7 +255,6 @@ fun MenuItems(menuItems: List<MenuItemEntity>) {
         }
     }
 }
-@OptIn(ExperimentalGlideComposeApi::class)
 
 @Composable
 fun MenuItemRow(item: MenuItemEntity) {
@@ -284,7 +297,6 @@ fun MenuItemRow(item: MenuItemEntity) {
                     contentScale = ContentScale.Crop
                 )
             }
-            Divider(modifier = Modifier.padding(start = 8.dp, end = 8.dp))
         }
     }
 }
@@ -292,12 +304,9 @@ fun MenuItemRow(item: MenuItemEntity) {
 @Composable
 fun MenuCategoryFilters(
     categories: List<String>,
-    selectedCategory: String,
     onCategorySelected: (String) -> Unit
-//    onCategorySelected: (String) -> Unit
 ) {
     Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 24.dp)) {
-        // The "ORDER FOR DELIVERY!" title
         Text(
             text = "ORDER FOR DELIVERY!",
             style = MaterialTheme.typography.titleMedium,
@@ -305,35 +314,24 @@ fun MenuCategoryFilters(
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
-        // This Row is the key part for horizontal sliding
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                // The .horizontalScroll modifier makes the content scrollable left and right
                 .horizontalScroll(rememberScrollState()),
-            // This adds consistent spacing between each button
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Loop through the list of categories to create a button for each
             categories.forEach { category ->
                 Button(
                     onClick = {
                         // When a button is clicked, call the lambda to update the state
                         onCategorySelected(category)
                     },
-//                    colors = ButtonDefaults.buttonColors(
-//                        // Change color based on whether this category is the selected one
-//                        backgroundColor = if (category == selectedCategory) PrimaryGreen else HighlightGray,
-//                        contentColor = if (category == selectedCategory) HighlightWhite else PrimaryGreen
-//                    ),
+//
                     shape = RoundedCornerShape(16.dp),
                 ) {
-                    // Display the category name, capitalized
                     Text(text = category.replaceFirstChar { it.uppercase() })
                 }
             }
         }
     }
 }
-val HighlightGray = Color(0xFFDCDCDC)
-val HighlightWhite = Color(0xFFEDEFEE)

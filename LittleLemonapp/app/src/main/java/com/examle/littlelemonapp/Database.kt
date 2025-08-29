@@ -2,7 +2,6 @@ package com.examle.littlelemonapp
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 
 @Entity(tableName = "menu_items")
 data class MenuItemEntity(

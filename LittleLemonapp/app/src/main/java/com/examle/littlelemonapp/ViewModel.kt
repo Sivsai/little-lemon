@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.stateIn
 import androidx.lifecycle.ViewModelProvider
 
 // Assume 'MenuDao' and 'MenuItemEntity' are already defined
-class MenuViewModel(private val menuDao: MenuDao) : ViewModel() {
+class MenuViewModel(menuDao: MenuDao) : ViewModel() {
 
     // This gets a Flow of lists from the database and converts it into a StateFlow
     // The UI will collect this StateFlow.

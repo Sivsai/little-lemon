@@ -1,8 +1,6 @@
 package com.examle.littlelemonapp
 
-//import io.ktor.client.HttpClient
-//import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-//import io.ktor.serialization.kotlinx.json.json
+
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -50,18 +48,17 @@ class MainActivity : ComponentActivity() {
         }
     }
     private lateinit var menuItems: Flow<List<MenuItemEntity>>
-    val db by   lazy { Room.databaseBuilder(
+     private val db by   lazy { Room.databaseBuilder(
         applicationContext,
         AppDatabase::class.java, "menu-db"
     ).build()
     }
-    val viewModel: MenuViewModel by viewModels { MenuViewModelFactory(db.menuDao()) }
+   private val viewModel: MenuViewModel by viewModels { MenuViewModelFactory(db.menuDao()) }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-         val menuDao = db.menuDao()
 
 lifecycleScope.launch(Dispatchers.IO) {
     if (db.menuDao().isEmpty()) { // Only fetch if the DB is empty
